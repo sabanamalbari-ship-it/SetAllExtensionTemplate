@@ -1,0 +1,30 @@
+name: Build AIX
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+
+      - name: Build Extension
+        run: ant extensions
+
+      - name: Upload AIX
+        uses: actions/upload-artifact@v4
+        with:
+          name: SetAll-AIX
+          path: out/*.aix
